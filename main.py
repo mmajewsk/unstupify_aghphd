@@ -13,6 +13,11 @@ for path in data_path.glob('*'):
         data = f.read()
     soup = BeautifulSoup(data, 'html.parser')
     allul = soup.find_all('ul')
+    print(" ==== ")
+    print(" ==== ")
+    print("READING "+str(path))
+    print(" ==== ")
+    print(" ==== ")
     for ul in allul:
         lis = ul.find_all(class_='lpt')
         if not lis:
@@ -53,7 +58,7 @@ for path in data_path.glob('*'):
 
         row = dict(
             authors=authors,
-            title=title,
+            title=title.replace("\n",""),
             journal=journal,
             date=page_and_date,
             doi=doi,
@@ -64,3 +69,12 @@ for path in data_path.glob('*'):
 df = pd.DataFrame(all_data)
 print(df)
 df.to_excel('publikacje.xlsx', index=False)
+with open('publikacje.txt','w') as f:
+    for d in all_data:
+        row = "Autorzy:{authors}\n" +\
+        "tytuł publikacji:{title}\n" +\
+        "Nazwa czasopisma:{journal}\n" +\
+        "numer tomu, strona (rok):{date}\n" +\
+        "numer doi:{doi}\n" +\
+        "punktacja: {point}\n\n"
+        f.write(row.format(**d))
