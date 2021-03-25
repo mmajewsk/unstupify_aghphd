@@ -1,3 +1,4 @@
+Works with python 3.8 and chrome at current date.
 How to install requirements.
 
 ```
